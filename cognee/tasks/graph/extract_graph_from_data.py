@@ -85,6 +85,7 @@ async def integrate_chunk_graphs(
     ontology_resolver: Optional[BaseOntologyResolver],
     pipeline_name: str = None,
     task_name: str = None,
+    ctx=None,
     **kwargs,
 ) -> List[DocumentChunk]:
     """Convert extracted graphs into linked data points for later storage.
@@ -139,7 +140,10 @@ async def integrate_chunk_graphs(
             ontology_resolver,
         )
 
-    existing_edge_identities = await find_existing_edge_identities(edges_by_identity.keys())
+    existing_edge_identities = await find_existing_edge_identities(
+        edges_by_identity.keys(),
+        ctx=ctx,
+    )
     attach_new_edges_to_data_points(
         data_points_by_id,
         edges_by_identity,
@@ -213,6 +217,7 @@ async def extract_graph_from_data(
         ontology_resolver,
         pipeline_name=pipeline_name,
         task_name=task_name,
+        ctx=ctx,
         **kwargs,
     )
 
